@@ -5,7 +5,7 @@ import * as BABYLON from "@babylonjs/core";
 import HavokPhysics from "@babylonjs/havok";
 
 import {BoxBody} from "./Boxbody"
-import {SegmentHinge} from "./HingeJoint"
+import {SegmentHinge} from "./SegmentHinge"
 
 import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Mesh, MeshBuilder } from "@babylonjs/core";
 
@@ -54,15 +54,13 @@ class App {
     {
         var havok = await HavokPhysics();
         this._physics = new BABYLON.HavokPlugin(true, havok);
-        this._scene.enablePhysics(new BABYLON.Vector3(0, -2.3, 0), this._physics)
+        this._scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), this._physics)
 
         this.start();
     }
 
-    private start(): void{
-
-
-
+    private start(): void
+    {
         let light1: BABYLON.HemisphericLight = new BABYLON.HemisphericLight("light1", new Vector3(1, 1, 0), this._scene);
 
         let skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this._scene);
@@ -82,7 +80,7 @@ class App {
         let bodies: BoxBody[] = [];
         let joints: SegmentHinge[] = [];
 
-        let number_of_boxes = 4;
+        let number_of_boxes = 10;
 
         for(let i = 0; i < number_of_boxes; i++){
             let box = BABYLON.MeshBuilder.CreateBox("box"+i, {height: 1, width: 1, depth: 1}, this._scene);
@@ -114,26 +112,22 @@ class App {
             const pointerDragBehavior = new BABYLON.PointerDragBehavior();
             box.addBehavior(pointerDragBehavior);
             let rb: BoxBody;
-            let start_position: Vector3;
-            
+
             pointerDragBehavior.onDragStartObservable.add((event) => {
                 this._scene.activeCamera.detachControl(this._canvas);
-                start_position = event.dragPlanePoint;
                 rb = (box.getBehaviorByName("BoxBody") as BoxBody);
-                rb.set_kinematic();
+                rb.setStatic();
             });
     
             pointerDragBehavior.onDragEndObservable.add((event) => {
                 this._scene.activeCamera.attachControl(this._canvas);
-                rb.reset_kinematic();
-                rb.get_rigidbody().body.applyImpulse(event.dragPlanePoint.subtract(start_position), Vector3.Zero());
+                rb.setDynamic();
             });
         });
-        
     }
 
     private update(): void{
-    
+
     }
 }
 

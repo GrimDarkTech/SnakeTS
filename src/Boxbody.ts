@@ -36,12 +36,14 @@ export class BoxBody implements BABYLON.Behavior<BABYLON.Mesh> {
         return this._rigidbody;
     }
 
-    public set_kinematic(){
+    public setStatic(){
         this._rigidbody.body.setMotionType(BABYLON.PhysicsMotionType.STATIC);
+        this._rigidbody.body.disablePreStep = false;
     }
 
-    public reset_kinematic(){
+    public setDynamic(){
         this._rigidbody.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+        this._rigidbody.body.disablePreStep = true;
     }
 
 }
