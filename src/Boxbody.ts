@@ -32,7 +32,7 @@ export class BoxBody implements BABYLON.Behavior<BABYLON.Mesh> {
         }
     }
 
-    public get_rigidbody(): BABYLON.PhysicsAggregate{
+    public getRigidbody(): BABYLON.PhysicsAggregate{
         return this._rigidbody;
     }
 
