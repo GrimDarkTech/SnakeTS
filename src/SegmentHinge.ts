@@ -24,8 +24,8 @@ export class SegmentHinge implements BABYLON.Behavior<BABYLON.Mesh> {
     public attach(target: BABYLON.Mesh): void {
         this.gameObject = target;
 
-        this._rigidbody = (target.getBehaviorByName("BoxBody") as BoxBody).get_rigidbody();
-        this._connected_rigidbody = this.connected_body.get_rigidbody();
+        this._rigidbody = (target.getBehaviorByName("BoxBody") as BoxBody).getRigidbody();
+        this._connected_rigidbody = this.connected_body.getRigidbody();
         const scene = target.getScene();
 
         this._joint = new BABYLON.HingeConstraint(this.pivot, this.connected_pivot, 
